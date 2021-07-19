@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, FlatList, ScrollView } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
-import moment from 'moment';
+import moment from 'moment'; //npm i moment
 import SelectDropdown from 'react-native-select-dropdown';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 var select_month = '';
 
@@ -20,10 +21,10 @@ const List = () => {
 
     if (month == select_month) {
       return(
-        <View style={{padding:15, borderBottomColor:'#aaa', borderBottomWidth:1,  flexDirection:'row', }}>
-          <Text style={{flex:1, padding:5, paddingLeft:10}}>{item.사용내역}</Text>
-          <Text style={{flex:1, padding:5, paddingLeft:60}}>{item.지출분류}</Text>
-          <Text style={{flex:1, padding:5, paddingLeft:30}}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{item.금액}</Text>
+        <View style={{padding:15, borderBottomColor:'#aaa', borderBottomWidth:1,  flexDirection:'row', paddingBottom:20,}}>
+          <Text style={{flex:1, padding:5, paddingLeft:10, color: Colors.white}}>{item.사용내역}</Text>
+          <Text style={{flex:1, padding:5, paddingLeft:60, color: Colors.white}}>{item.지출분류}</Text>
+          <Text style={{flex:1, padding:5, paddingLeft:30, color: Colors.white}}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{item.금액}</Text>
         </View>
       )
     }
@@ -63,13 +64,13 @@ const List = () => {
           setCategory(selectedItem);
         }}
         defaultButtonText="날짜 선택"
-        buttonStyle={{marginBottom: 10, width: 300, height:35, paddingRight:10, margin: 65, marginTop:0, backgroundColor:'#3796EF'}}
+        buttonStyle={{marginBottom: 10, width: 300, height:35, paddingRight:10, margin: 65, marginTop:0}}
         />
-        <Text style={{paddingBottom:15, paddingLeft: 30, paddingTop:10, borderBottomColor:'#aaa', borderBottomWidth:1, fontWeight:'bold', letterSpacing:10}}>
+        <Text style={{paddingBottom:15, paddingLeft: 30, paddingTop:10, borderBottomColor:'#aaa', borderBottomWidth:2, fontWeight:'bold', letterSpacing:10, color: Colors.white}}>
           &nbsp;{columns[0]}&nbsp;&nbsp; {columns[1]}&nbsp;&nbsp;&nbsp; {columns[2]}&nbsp;
         </Text>
         <ScrollView>
-            <View style={{paddingTop: 10, borderBottomColor: '#FFFFFF', borderBottomWidth:1}}>
+            <View style={{paddingTop: 10, borderBottomColor: '#2c3e50', borderBottomWidth:1,}}>
                 <FlatList data={data} renderItem={renderItem} style={{ padding:15,}}/>
             </View>
         </ScrollView>
