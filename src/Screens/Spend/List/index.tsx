@@ -47,7 +47,7 @@ const List = () => {
     });
   },[])
 
-  const categories = ['2021년 04월', '2021년 05월', '2021년 06월', '2021년 07월', '2021년 08월', '2021년 09월']
+  const categories = ['2021년 04월', '2021년 05월', '2021년 06월', '2021년 07월', '2021년 08월', '2021년 09월'];
   const [category, setCategory] = useState('');
     
   return(

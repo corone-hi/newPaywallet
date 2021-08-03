@@ -15,6 +15,7 @@ const defaultContext: IUserContext = {
   register: (email: string, password: string, name: string, tel: string) => {},
   getUserInfo: () => {},
   logout: () => {},
+  monthlyTarget: (target:string) => {},
 };
 
 const UserContext = createContext(defaultContext);
@@ -123,11 +124,11 @@ const UserContextProvider = ({children}: Props) => {
             childData = childData.replace(/,/g, '');
             childData = Number(childData);
             //console.log(childData);
-            total += childData
+            total += childData;
             //console.log(total);
             setResult(total);
+
           } 
-          //console.log(key, childData);
 
           //console.log(result);
         });
@@ -139,6 +140,10 @@ const UserContextProvider = ({children}: Props) => {
     }
 
     
+  };
+
+  const monthlyTarget = async(target: string) => {
+    await database().ref(`/users/${userInfo}`).update({monthlyTarget: target});
   };
 
   useEffect(() => {
@@ -157,6 +162,7 @@ const UserContextProvider = ({children}: Props) => {
         login,
         register,
         logout,
+        monthlyTarget,
       }}>
       {children}
     </UserContext.Provider>
