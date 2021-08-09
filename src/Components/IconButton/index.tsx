@@ -18,7 +18,10 @@ interface Props {
     | 'bookmark'
     | 'menu'
     | 'list'
-    | 'calendar';
+    | 'calendar'
+    | 'LineChartExample'
+    | 'BarChartExample'
+    | 'PieChartExample';
   style?: object;
   onPress?: () => void;
 }
@@ -35,6 +38,10 @@ const IconButton = ({ iconName, style, onPress }: Props) => {
     menu: require('~/Assets/Images/ic_menu.png'),
     list: require('~/Assets/Images/list.png'),
     calendar: require('~/Assets/Images/calendar.png'),
+    LineChartExample: require('~/Assets/Images/linechart.png'),
+    BarChartExample: require('~/Assets/Images/barchart.png'),
+    PieChartExample: require('~/Assets/Images/piechart.png'),
+    
   };
 
   return (

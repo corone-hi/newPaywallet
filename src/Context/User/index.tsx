@@ -146,6 +146,7 @@ const UserContextProvider = ({children}: Props) => {
     await database().ref(`/users/${userInfo}`).update({monthlyTarget: target});
   };
 
+
   useEffect(() => {
     getUserInfo();
     monthlyAcount();
