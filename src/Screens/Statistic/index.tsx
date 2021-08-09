@@ -48,11 +48,9 @@ const Statistic = ({navigation}: Props) => {
         <IconButton iconName="BarChartExample" onPress={() => setOption('bar')} />
         <IconButton iconName="PieChartExample" onPress={() => setOption('pie')} />
       </OptionContainer>
-      
+      {option=='line' ? <LineChartExample /> : (option=='bar' ? <BarChartExample /> : <PieChartExample />)}
     </Container>
   );
 };
-
-// {option=='line' ? <LineChartExample /> : (option=='bar' ? <BarChartExample /> : <PieChartExample />)}
 
 export default Statistic;
