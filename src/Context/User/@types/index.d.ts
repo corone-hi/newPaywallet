@@ -19,4 +19,5 @@ interface IUserContext {
   getUserInfo: () => void;
   logout: () => void;
   monthlyTarget: () => void;
+  monthlyAcount: () => void;
 }

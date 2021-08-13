@@ -110,7 +110,6 @@ const Pay = ({navigation}: Props) => {
   //<PayName> ෆ {userData?.name} 님 ෆ</PayName>
   return (
     <Container>
-      
       <PayContainer>
         <Swiper showsButtons={true}>
           <SwipeContainer>

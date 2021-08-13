@@ -9,6 +9,7 @@ import SmsAndroid from 'react-native-get-sms-android';
 import database from '@react-native-firebase/database';
 import auth from '@react-native-firebase/auth';
 import axios from 'axios';
+import {UserContext} from '~/Context/User';
 
 const defaultContext: ISMSDataContext = {
   setData: (category: string, date: Date, shop: string, money: string) => {},
@@ -21,6 +22,7 @@ interface Props {
 }
 
 const SMSDataContextProvider = ({children}: Props) => {
+  const {monthlyAcount} = useContext<IUserContext>(UserContext);
   const [messageData, setMessage] = useState({
     body: '',
     address: '',
@@ -31,6 +33,7 @@ const SMSDataContextProvider = ({children}: Props) => {
   const [dshop, setDshop] = useState(null);
   const [dmoney, setDmoney] = useState(null);
   const [dcategory, setDcategory] = useState(null);
+  
 
   const classification_list = {
     '공공,사회기관':
@@ -153,7 +156,7 @@ const SMSDataContextProvider = ({children}: Props) => {
       console.log('shopname:', shopname);
 
       if (shopname) {
-        fetch(`http://192.168.219.193:8080/api/crawl/${shopname}`)
+        fetch(`http://192.168.219.106:8080/api/crawl/${shopname}`)
           .then(res => res.json())
           .then(data => {
             console.log(data);
@@ -161,7 +164,6 @@ const SMSDataContextProvider = ({children}: Props) => {
             setCname(data.class);
           });
 
-        
       }
 
       if (cname) {
@@ -206,9 +208,19 @@ const SMSDataContextProvider = ({children}: Props) => {
         money: dmoney,
         class: cname,
       });
+
+      monthlyAcount();
+
+      setCname(null);
+      setDshop(null);
+      setDmoney(null);
+      setDcategory(null);
     }
-    //setCname('');
+
+
   }, [body, cname, dmoney, dshop, dcategory, messageData.timestamp]);
+
+
 
   const setData = (
     category: string,
@@ -226,7 +238,10 @@ const SMSDataContextProvider = ({children}: Props) => {
         shop: shop,
         money: money,
       });
+
+      monthlyAcount();
     }
+
   };
 
   return (

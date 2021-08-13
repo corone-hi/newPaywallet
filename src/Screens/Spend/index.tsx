@@ -18,8 +18,8 @@ const Container = Styled.View`
 const OptionContainer = Styled.View`
   flex-direction:row;
   justify-content: flex-end;
-  margin-top: 30px;
-  padding: 20px;
+  margin-top: 5px;
+  padding: 10px;
 `;
 
 type NavigationProp = StackNavigationProp<PayParamList, 'Spend'>;

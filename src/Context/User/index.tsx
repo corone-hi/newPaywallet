@@ -15,7 +15,8 @@ const defaultContext: IUserContext = {
   register: (email: string, password: string, name: string, tel: string) => {},
   getUserInfo: () => {},
   logout: () => {},
-  monthlyTarget: (target:string) => {},
+  monthlyTarget: (target: string) => {},
+  monthlyAcount: () => {},
 };
 
 const UserContext = createContext(defaultContext);
@@ -55,7 +56,6 @@ const UserContextProvider = ({children}: Props) => {
           console.log('User: ', snapshot.val());
           setUserData(snapshot.val());
           //data = {user: snapshot.val()};
-          //console.log("userdata:", userData);
         });
       //setUserData(data);
       setIsLoading(true);
@@ -100,6 +100,10 @@ const UserContextProvider = ({children}: Props) => {
     }
   };
 
+  useEffect(() => {
+    getUserInfo();
+    monthlyAcount();
+  }, [userInfo]);
 
   const monthlyAcount = async () => {
     try {
@@ -110,15 +114,17 @@ const UserContextProvider = ({children}: Props) => {
           let key = childSnapshot.key;
           key = String(key);
           key = key.replace(/@/, '');
-          let newDate = new Date(key * 1000);
+          let newDate = new Date(key * 1);
           let keyMonth = newDate.getMonth() + 1;
 
           let date = new Date();
           let month = date.getMonth() + 1;
           //console.log(month, keyMonth);
 
-          if (keyMonth == month){
+          if (keyMonth == month) {
             let childData = childSnapshot.val();
+            //console.log(childData);
+
             childData = childData.money;
             childData = childData.replace(/원/, '');
             childData = childData.replace(/,/g, '');
@@ -127,30 +133,50 @@ const UserContextProvider = ({children}: Props) => {
             total += childData;
             //console.log(total);
             setResult(total);
-
-          } 
+          }
 
           //console.log(result);
         });
+        //monthlyUsage();
       });
-      
     } catch (e) {
       console.log(e);
       setIsLoading(true);
     }
-
-    
   };
 
-  const monthlyTarget = async(target: string) => {
+  const monthlyTarget = async (target: string) => {
     await database().ref(`/users/${userInfo}`).update({monthlyTarget: target});
   };
 
+  /*
+  const monthlyUsage = async() => {
+    if (userInfo) {
+      let date = new Date();
+      let month = date.getMonth() + 1;
+      await database().ref(`/users/${userInfo}/${month}`).set({over: date});
+      let aim = Number(data.monthlyTarget);
+      let acount = Number(result);
+      let thirty = aim * 0.3;
+      let fifty = aim * 0.5;
+      let seventy = aim * 0.7;
+      let ninty = aim * 0.9;
+      if (aim < acount) {
+        database().ref(`/users/${userInfo}/${month}`).set({over: date});
+      } else if (thirty > acount) {
+        database().ref(`/users/${userInfo}/${month}`).set({thirty: date});
+      } else if (fifty > acount) {
+        database().ref(`/users/${userInfo}/${month}`).set({fifty: date});
+      } else if (seventy > acount) {
+        database().ref(`/users/${userInfo}/${month}`).set({seventy: date});
+      } else if (ninty > acount) {
+        database().ref(`/users/${userInfo}/${month}`).set({ninety: date});
+      }
+    }
+    //data = {user: snapshot.val()};
+  };
 
-  useEffect(() => {
-    getUserInfo();
-    monthlyAcount();
-  }, [userInfo]);
+  */
 
   return (
     <UserContext.Provider
@@ -164,6 +190,7 @@ const UserContextProvider = ({children}: Props) => {
         register,
         logout,
         monthlyTarget,
+        monthlyAcount,
       }}>
       {children}
     </UserContext.Provider>
