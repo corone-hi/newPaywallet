@@ -9,6 +9,7 @@ interface IUserContext {
   result: Number;
   userInfo: undefined;
   userData: IUserInfo | undefined;
+  target: undefined,
   login: (email: string, password: string) => void;
   register: (
     email: string,

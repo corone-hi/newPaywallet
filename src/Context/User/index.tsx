@@ -11,12 +11,14 @@ const defaultContext: IUserContext = {
   userInfo: undefined,
   userData: undefined,
   result: undefined,
+  target: undefined,
   login: (email: string, password: string) => {},
   register: (email: string, password: string, name: string, tel: string) => {},
   getUserInfo: () => {},
   logout: () => {},
   monthlyTarget: (target: string) => {},
   monthlyAcount: () => {},
+  
 };
 
 const UserContext = createContext(defaultContext);
@@ -30,6 +32,7 @@ const UserContextProvider = ({children}: Props) => {
   const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [result, setResult] = useState<Number>(0);
+  const [target, setTarget] = useState(null);
 
   const login = async (email: string, password: string): void => {
     try {
@@ -38,26 +41,15 @@ const UserContextProvider = ({children}: Props) => {
         .then(userRecord => {
           console.log(userRecord.user.uid);
           setUserInfo(userRecord.user.uid);
-        });
 
-      setIsLoading(true);
-    } catch (e) {
-      console.log(e);
-      Alert.alert(e);
-      setIsLoading(true);
-    }
-  };
-
-  const getUserInfo = (): void => {
-    try {
-      database()
-        .ref(`users/${userInfo}`)
-        .on('value', snapshot => {
-          console.log('User: ', snapshot.val());
-          setUserData(snapshot.val());
-          //data = {user: snapshot.val()};
+          database()
+            .ref(`/users/${userRecord.user.uid}`)
+            .on('value', snapshot => {
+              const userItem = snapshot.val();
+              setUserData(userItem);
+              setTarget(userItem.monthlyTarget);
+            });
         });
-      //setUserData(data);
       setIsLoading(true);
     } catch (e) {
       console.log(e);
@@ -101,44 +93,46 @@ const UserContextProvider = ({children}: Props) => {
   };
 
   useEffect(() => {
-    getUserInfo();
+    
     monthlyAcount();
+
   }, [userInfo]);
 
   const monthlyAcount = async () => {
     try {
-      const query = database().ref(`user_wallet/${userInfo}/`).orderByKey();
-      query.once('value').then(snapshot => {
-        let total = 0;
-        snapshot.forEach(childSnapshot => {
-          let key = childSnapshot.key;
-          key = String(key);
-          key = key.replace(/@/, '');
-          let newDate = new Date(key * 1);
-          let keyMonth = newDate.getMonth() + 1;
+      if (userInfo) {
+        const query = database().ref(`user_wallet/${userInfo}/`).orderByKey();
+        query.once('value').then(snapshot => {
+          let total = 0;
+          snapshot.forEach(childSnapshot => {
+            let key = childSnapshot.key;
+            key = String(key);
+            key = key.replace(/@/, '');
+            let newDate = new Date(key * 1);
+            let keyMonth = newDate.getMonth() + 1;
 
-          let date = new Date();
-          let month = date.getMonth() + 1;
-          //console.log(month, keyMonth);
+            let date = new Date();
+            let month = date.getMonth() + 1;
+            //console.log(month, keyMonth);
 
-          if (keyMonth == month) {
-            let childData = childSnapshot.val();
-            //console.log(childData);
+            if (keyMonth == month) {
+              let childData = childSnapshot.val();
+              //console.log(childData);
 
-            childData = childData.money;
-            childData = childData.replace(/원/, '');
-            childData = childData.replace(/,/g, '');
-            childData = Number(childData);
-            //console.log(childData);
-            total += childData;
-            //console.log(total);
-            setResult(total);
-          }
+              childData = childData.money;
+              childData = childData.replace(/원/, '');
+              childData = childData.replace(/,/g, '');
+              childData = Number(childData);
+              //console.log(childData);
+              total += childData;
+              //console.log(total);
+              setResult(total);
+            }
 
-          //console.log(result);
+            //console.log(result);
+          });
         });
-        //monthlyUsage();
-      });
+      }
     } catch (e) {
       console.log(e);
       setIsLoading(true);
@@ -149,41 +143,13 @@ const UserContextProvider = ({children}: Props) => {
     await database().ref(`/users/${userInfo}`).update({monthlyTarget: target});
   };
 
-  /*
-  const monthlyUsage = async() => {
-    if (userInfo) {
-      let date = new Date();
-      let month = date.getMonth() + 1;
-      await database().ref(`/users/${userInfo}/${month}`).set({over: date});
-      let aim = Number(data.monthlyTarget);
-      let acount = Number(result);
-      let thirty = aim * 0.3;
-      let fifty = aim * 0.5;
-      let seventy = aim * 0.7;
-      let ninty = aim * 0.9;
-      if (aim < acount) {
-        database().ref(`/users/${userInfo}/${month}`).set({over: date});
-      } else if (thirty > acount) {
-        database().ref(`/users/${userInfo}/${month}`).set({thirty: date});
-      } else if (fifty > acount) {
-        database().ref(`/users/${userInfo}/${month}`).set({fifty: date});
-      } else if (seventy > acount) {
-        database().ref(`/users/${userInfo}/${month}`).set({seventy: date});
-      } else if (ninty > acount) {
-        database().ref(`/users/${userInfo}/${month}`).set({ninety: date});
-      }
-    }
-    //data = {user: snapshot.val()};
-  };
-
-  */
-
   return (
     <UserContext.Provider
       value={{
         userInfo,
         userData,
         result,
+        target,
         setUserData,
         isLoading,
         login,
