@@ -130,6 +130,41 @@ const Calendars = () => {
   console.log(markedDate);
 */
 
+  if (userData[month].hasOwnProperty('thirty')) {
+    markedDate[userData[month].thirty] = {
+      marked: true,
+      dotColor: 'lime',
+    };
+  }
+
+  if (userData[month].hasOwnProperty('fifty')) {
+    markedDate[userData[month].fifty] = {
+      marked: true,
+      dotColor: 'blue',
+    };
+  }
+
+  if (userData[month].hasOwnProperty('seventy')) {
+    markedDate[userData[month].seventy] = {
+      marked: true,
+      dotColor: 'orange',
+    };
+  }
+
+  if (userData[month].hasOwnProperty('ninety')) {
+    markedDate[userData[month].ninety] = {
+      marked: true,
+      dotColor: 'red',
+    };
+  }
+
+  if (userData[month].hasOwnProperty('over')) {
+    markedDate[userData[month].over] = {
+      selected: true,
+      selectedColor: 'red',
+    };
+  }
+
   return (
     <Container>
       <StatusBar barStyle="light-content" />
