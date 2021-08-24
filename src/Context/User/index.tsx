@@ -14,11 +14,10 @@ const defaultContext: IUserContext = {
   target: undefined,
   login: (email: string, password: string) => {},
   register: (email: string, password: string, name: string, tel: string) => {},
-  getUserInfo: () => {},
+  //getUserInfo: () => {},
   logout: () => {},
   monthlyTarget: (target: string) => {},
   monthlyAcount: () => {},
-  
 };
 
 const UserContext = createContext(defaultContext);
@@ -33,6 +32,7 @@ const UserContextProvider = ({children}: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [result, setResult] = useState<Number>(0);
   const [target, setTarget] = useState(null);
+  const [category, setCategory] = useState([]);
 
   const login = async (email: string, password: string): void => {
     try {
@@ -92,12 +92,6 @@ const UserContextProvider = ({children}: Props) => {
     }
   };
 
-  useEffect(() => {
-    
-    monthlyAcount();
-
-  }, [userInfo]);
-
   const monthlyAcount = async () => {
     try {
       if (userInfo) {
@@ -143,6 +137,10 @@ const UserContextProvider = ({children}: Props) => {
     await database().ref(`/users/${userInfo}`).update({monthlyTarget: target});
   };
 
+  useEffect(() => {
+    monthlyAcount();
+  }, [userInfo]);
+
   return (
     <UserContext.Provider
       value={{
@@ -150,7 +148,6 @@ const UserContextProvider = ({children}: Props) => {
         userData,
         result,
         target,
-        setUserData,
         isLoading,
         login,
         register,
