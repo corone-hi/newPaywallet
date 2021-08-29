@@ -1,9 +1,9 @@
-import React, {useEffect, useState, useContext} from 'react';
+import React, {useState, useContext} from 'react';
 import {Text, View} from 'react-native';
 import {Grid, LineChart, YAxis, XAxis} from 'react-native-svg-charts';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import SelectDropdown from 'react-native-select-dropdown';
-import {UserContext} from '~/Context/User';
+import {UserDataContext} from '~/Context/UserData';
 import {State} from 'react-native-gesture-handler';
 
 var select_category = '공공,사회기관';
@@ -29,9 +29,9 @@ const LineChartExample = () => {
     '12',
   ];
 
-  //const {getMonthSum, category} = useContext<IUserContext>(UserContext);
-  //let month_sum = category;
-  //var month_sum = [10,0,0,0,0,0,0,0,0,0,0,0];
+  const {getMonthSum, category} = useContext<IUserDataContext>(UserDataContext);
+  //let month_sum = category; //이걸로는 안됨..이걸해야 UserData를 받아오는건데요..
+  var month_sum = [20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
   const categories = [
     '공공,사회기관',
@@ -90,7 +90,7 @@ const LineChartExample = () => {
           if (selectedItem == categories[11]) {
             select_category = '음식점';
           }
-          if (selectedItem == categories[0]) {
+          if (selectedItem == categories[12]) {
             select_category = '카페';
           }
           setCategory2(selectedItem);
@@ -110,12 +110,11 @@ const LineChartExample = () => {
       />
 
       <Text style={{color: Colors.white, paddingTop: 20, fontSize: 17}}>
-        {' '}
-        [ {select_category} ] 사용 내역별 지출 추이
+        {'        '}[ {select_category} ] 사용 내역별 지출 추이
       </Text>
       <View style={{height: 300, padding: 30, flexDirection: 'row'}}>
         <YAxis
-          data={month_sum}
+          data={month_sum} //여기 데이터 들어가야함
           contentInset={contentInset}
           svg={{
             fill: 'grey',
