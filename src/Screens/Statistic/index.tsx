@@ -1,4 +1,10 @@
-import React, { useLayoutEffect, Component, useState, useRef, useEffect} from 'react';
+import React, {
+  useLayoutEffect,
+  Component,
+  useState,
+  useRef,
+  useEffect,
+} from 'react';
 import {FlatList, Text, View} from 'react-native';
 
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -18,7 +24,6 @@ const Container = Styled.View`
 const OptionContainer = Styled.View`
   flex-direction:row;
   justify-content: flex-end;
-  margin-top: 30px;
   padding: 20px;
 `;
 
@@ -44,11 +49,26 @@ const Statistic = ({navigation}: Props) => {
   return (
     <Container>
       <OptionContainer>
-        <IconButton iconName="LineChartExample" onPress={() => setOption('line')} />
-        <IconButton iconName="BarChartExample" onPress={() => setOption('bar')} />
-        <IconButton iconName="PieChartExample" onPress={() => setOption('pie')} />
+        <IconButton
+          iconName="LineChartExample"
+          onPress={() => setOption('line')}
+        />
+        <IconButton
+          iconName="BarChartExample"
+          onPress={() => setOption('bar')}
+        />
+        <IconButton
+          iconName="PieChartExample"
+          onPress={() => setOption('pie')}
+        />
       </OptionContainer>
-      {option=='line' ? <LineChartExample /> : (option=='bar' ? <BarChartExample /> : <PieChartExample />)}
+      {option == 'line' ? (
+        <LineChartExample />
+      ) : option == 'bar' ? (
+        <BarChartExample />
+      ) : (
+        <PieChartExample />
+      )}
     </Container>
   );
 };
