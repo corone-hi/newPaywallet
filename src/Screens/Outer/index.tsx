@@ -36,7 +36,6 @@ const Title = Styled.Text`
   margin-bottom:10px;
 `;
 
-
 const ButtonContainer = Styled.View`
   flex-direction: row;
 `;
@@ -54,7 +53,6 @@ const FooterDescription = Styled.Text`
 const GoBack = Styled.Text`
   color: #3796EF;
 `;
-
 
 type NavigationProp = StackNavigationProp<PayParamList, 'Pay'>;
 
@@ -74,14 +72,12 @@ const Outer = ({navigation}: Props) => {
     });
   }, []);
 
-
   const [category, setCategory] = useState('');
   const [shop, setShop] = useState('');
   const [money, setMoney] = useState('');
   const [date, setDate] = useState(new Date());
 
   const {setData} = useContext<ISMSDataContext>(SMSDataContext);
-  
 
   const categories = [
     '공공,사회기관',
@@ -103,14 +99,14 @@ const Outer = ({navigation}: Props) => {
     <Container>
       <FormContainer>
         <Title>내용</Title>
-        <SelectDropdown  
+        <SelectDropdown
           data={categories}
-          onSelect={(selectedItem, index) =>{
+          onSelect={(selectedItem, index) => {
             console.log(selectedItem, index);
             setCategory(selectedItem);
           }}
           defaultButtonText="Category"
-          buttonStyle={{marginBottom: 10, width: 330, height:42}}
+          buttonStyle={{marginBottom: 10, width: 330, height: 42}}
         />
         <Title>날짜</Title>
         <DatePicker
@@ -137,27 +133,25 @@ const Outer = ({navigation}: Props) => {
         <ButtonContainer>
           <Button
             label="확인"
-            style={{margin: 10, width:'45%',  backgroundColor:'#4fdfff'}}
+            style={{margin: 10, width: '45%', backgroundColor: '#4fdfff'}}
             onPress={() => {
               setData(category, date, shop, money);
               Alert.alert('입력이 완료되었습니다.');
               //navigation.navigate('Login');
             }}
           />
-          
+
           <Button
             label="취소"
-            style={{margin:10, width:'45%', backgroundColor:'#4fdfff'}}
+            style={{margin: 10, width: '45%', backgroundColor: '#4fdfff'}}
             onPress={() => {
-              navigation.goBack()
+              navigation.goBack();
             }}
           />
         </ButtonContainer>
 
         <Description>@Paywallet</Description>
       </FormContainer>
-
-     
     </Container>
   );
 };

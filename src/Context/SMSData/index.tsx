@@ -287,6 +287,8 @@ const SMSDataContextProvider = ({children}: Props) => {
   ) => {
     let timestamp = date.getTime();
     let user = auth().currentUser;
+    console.log(date);
+    console.log(timestamp);
 
     if (user) {
       database().ref(`/user_wallet/${user.uid}/@${timestamp}`).set({

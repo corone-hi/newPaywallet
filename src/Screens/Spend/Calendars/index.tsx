@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StatusBar,
   Alert,
+  Image,
 } from 'react-native';
 
 import Styled from 'styled-components/native';
@@ -40,9 +41,14 @@ const TargetText = Styled.Text`
 
 const Information = Styled.Text`
   font-size: 10px;
-  margin-top: 10px;
-  margin-left:20px;
+  margin-left:10px;
   color: white;
+`;
+
+const ImageContainer = Styled.View`
+  margin-top: 5px;
+  margin-left:20px;
+  flex-direction: row;
 `;
 
 const Calendars = () => {
@@ -70,8 +76,11 @@ const Calendars = () => {
     //database().ref(`/users/${userInfo}/${month}`).set({over: date});
     //console.log(aim, acount);
     let thirty = aim * 0.3;
+    /*
     let fifty = aim * 0.5;
     let seventy = aim * 0.7;
+    */
+    let sixty = aim * 0.6;
     let ninty = aim * 0.9;
     if (aim < acount) {
       if (!userData[month].hasOwnProperty('over')) {
@@ -89,6 +98,7 @@ const Calendars = () => {
       }
     }
 
+    /*
     if (fifty < acount) {
       if (!userData[month].hasOwnProperty('fifty')) {
         database()
@@ -104,7 +114,15 @@ const Calendars = () => {
           .update({seventy: dateString});
       }
     }
+    */
 
+    if (sixty < acount) {
+      if (!userData[month].hasOwnProperty('sixty')) {
+        database()
+          .ref(`/users/${userInfo}/${month}`)
+          .update({seventy: dateString});
+      }
+    }
     if (ninty < acount) {
       if (!userData[month].hasOwnProperty('ninety')) {
         database()
@@ -132,15 +150,36 @@ const Calendars = () => {
 
   if (userData[month].hasOwnProperty('thirty')) {
     markedDate[userData[month].thirty] = {
-      marked: true,
-      dotColor: 'lime',
+      customStyles: {
+        container: {
+          borderWidth: 4,
+          borderColor: 'rgba(0, 0, 0, 0.473)',
+          borderStyle: 'dotted',
+          backgroundColor: '#7eff7e',
+          justifyContent: 'center',
+        },
+        text: {
+          marginTop: 0,
+        },
+      },
     };
   }
 
+  /*
+
   if (userData[month].hasOwnProperty('fifty')) {
     markedDate[userData[month].fifty] = {
-      marked: true,
-      dotColor: 'blue',
+      customStyles: {
+        container: {
+          borderWidth: 2,
+          borderColor: 'orange',
+          backgroundColor: 'yellow',
+          justifyContent: 'center',
+        },
+        text: {
+          marginTop: 0,
+        },
+      },
     };
   }
 
@@ -151,10 +190,38 @@ const Calendars = () => {
     };
   }
 
+  */
+
+  if (userData[month].hasOwnProperty('sixty')) {
+    markedDate[userData[month].sixty] = {
+      customStyles: {
+        container: {
+          borderWidth: 4,
+          borderColor: 'rgba(0, 0, 0, 0.473)',
+          borderStyle: 'dashed',
+          backgroundColor: '#fff12f',
+          justifyContent: 'center',
+        },
+        text: {
+          marginTop: 0,
+        },
+      },
+    };
+  }
+
   if (userData[month].hasOwnProperty('ninety')) {
     markedDate[userData[month].ninety] = {
-      marked: true,
-      dotColor: 'red',
+      customStyles: {
+        container: {
+          borderWidth: 4,
+          borderColor: 'rgba(0, 0, 0, 0.473)',
+          backgroundColor: '#fab83c',
+          justifyContent: 'center',
+        },
+        text: {
+          marginTop: 0,
+        },
+      },
     };
   }
 
@@ -193,11 +260,36 @@ const Calendars = () => {
         />
       </SelectContainer>
       <TargetText>현재 월 설정 목표량: {aim} 원</TargetText>
-      <Information>💚: 목표량의 30% 💙: 목표량의 50%</Information>
-      <Information>🧡: 목표량의 70% 💜: 목표량의 90%</Information>
-      <Information>🔴: 목표량 초과</Information>
+      <ImageContainer>
+        <Image
+          style={{width: 20, height: 20}}
+          source={require('~/Assets/Images/Calendar/30.png')}
+        />
+        <Information>목표량의 30%</Information>
+      </ImageContainer>
+      <ImageContainer>
+        <Image
+          style={{width: 20, height: 20}}
+          source={require('~/Assets/Images/Calendar/60.png')}
+        />
+        <Information>목표량의 60%</Information>
+      </ImageContainer>
+      <ImageContainer>
+        <Image
+          style={{width: 20, height: 20}}
+          source={require('~/Assets/Images/Calendar/90.png')}
+        />
+        <Information>목표량의 90%</Information>
+      </ImageContainer>
+      <ImageContainer>
+        <Image
+          style={{width: 20, height: 20}}
+          source={require('~/Assets/Images/Calendar/over.png')}
+        />
+        <Information>목표량 초과</Information>
+      </ImageContainer>
       <CalendarContainer>
-        <Calendar markedDates={markedDate} />
+        <Calendar markingType={'custom'} markedDates={markedDate} />
       </CalendarContainer>
     </Container>
   );
