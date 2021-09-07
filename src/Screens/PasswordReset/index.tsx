@@ -85,7 +85,8 @@ const PasswordReset = ({navigation}: Props) => {
         />
         <Button
           label="다음"
-          style={{marginBottom: 24, backgroundColor:'#4fdfff'}}
+          // eslint-disable-next-line react-native/no-inline-styles
+          style={{marginBottom: 24, backgroundColor: '#4fdfff'}}
           onPress={() => {
             let user = auth().currentUser;
             if (user) {

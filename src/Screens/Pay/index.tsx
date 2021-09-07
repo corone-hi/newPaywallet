@@ -1,18 +1,17 @@
-import React, { useContext, useLayoutEffect, useState} from 'react';
-import {FlatList, Text, Image,View, ImageStore} from 'react-native';
+/* eslint-disable react-native/no-inline-styles */
+import React, {useContext, useEffect, useLayoutEffect, useState} from 'react';
+import {FlatList, Text, Image, View, ImageStore} from 'react-native';
 
 import {StackNavigationProp} from '@react-navigation/stack';
 import {DrawerActions} from '@react-navigation/native';
 
 import Swiper from 'react-native-swiper';
-import { RNCamera, FaceDetector } from 'react-native-camera';
+import {RNCamera, FaceDetector} from 'react-native-camera';
 import {UserContext} from '~/Context/User';
 
 import Styled from 'styled-components/native';
 import IconButton from '~/Components/IconButton';
 import Button from '~/Components/Button';
-
-
 
 const Container = Styled.View`
   flex: 1;
@@ -59,7 +58,6 @@ const Month = Styled.Text`
   margin-top: 40px;
 `;
 
-
 const SwipeContainer = Styled.View`
   align-items: center;
   justify-content: center;
@@ -85,7 +83,6 @@ const Label = Styled.Text`
   color: #FFFFFF;
 `;
 
-
 type NavigationProp = StackNavigationProp<PayParamList, 'Pay'>;
 
 interface Props {
@@ -93,9 +90,16 @@ interface Props {
 }
 
 const Pay = ({navigation}: Props) => {
-  const {userData, result} = useContext<IUserContext>(UserContext);
+  const {userData, result, monthlyAcount} = useContext<IUserContext>(
+    UserContext,
+  );
+
   let acount = result.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); //10,000
-  
+
+  useEffect(() => {
+    monthlyAcount();
+  }, []);
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -106,7 +110,7 @@ const Pay = ({navigation}: Props) => {
       ),
     });
   }, []);
-  
+
   //<PayName> ෆ {userData?.name} 님 ෆ</PayName>
   return (
     <Container>
@@ -125,29 +129,23 @@ const Pay = ({navigation}: Props) => {
           <SwipeContainer>
             <PayName>바코드 결제</PayName>
             <PayImage>
-            <RNCamera
+              <RNCamera
                 style={{width: 400, height: 300}}
                 type={RNCamera.Constants.Type.back}
                 captureAudio={false}
               />
-                
             </PayImage>
           </SwipeContainer>
-
-
         </Swiper>
       </PayContainer>
       <ButtonContainer>
         <StyleButton onPress={() => navigation.navigate('Outer')}>
-          <Label >사용자 직접 입력</Label>
+          <Label>사용자 직접 입력</Label>
         </StyleButton>
         <StyleButton onPress={() => navigation.navigate('Spend')}>
-          <Label >사용 내역</Label>
+          <Label>사용 내역</Label>
         </StyleButton>
       </ButtonContainer>
-      
-      
-      
     </Container>
   );
 };

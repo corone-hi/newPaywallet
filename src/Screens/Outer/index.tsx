@@ -9,6 +9,7 @@ import Button from '~/Components/Button';
 import IconButton from '~/Components/IconButton';
 
 import {SMSDataContext} from '~/Context/SMSData';
+import {UserContext} from '~/Context/User';
 import SelectDropdown from 'react-native-select-dropdown';
 import DatePicker from 'react-native-date-picker';
 
@@ -78,6 +79,7 @@ const Outer = ({navigation}: Props) => {
   const [date, setDate] = useState(new Date());
 
   const {setData} = useContext<ISMSDataContext>(SMSDataContext);
+  const {monthlyAcount} = useContext<IUserContext>(UserContext);
 
   const categories = [
     '공공,사회기관',
@@ -137,6 +139,7 @@ const Outer = ({navigation}: Props) => {
             onPress={() => {
               setData(category, date, shop, money);
               Alert.alert('입력이 완료되었습니다.');
+              monthlyAcount();
               //navigation.navigate('Login');
             }}
           />
@@ -146,6 +149,7 @@ const Outer = ({navigation}: Props) => {
             style={{margin: 10, width: '45%', backgroundColor: '#4fdfff'}}
             onPress={() => {
               navigation.goBack();
+              monthlyAcount();
             }}
           />
         </ButtonContainer>

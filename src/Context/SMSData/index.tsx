@@ -156,7 +156,7 @@ const SMSDataContextProvider = ({children}: Props) => {
 
       setTimeout(() => {
         if (shopname) {
-          fetch(`http://192.168.219.169:8080/api/crawl/${shopname}`)
+          fetch(`http://192.168.38.119:8080/api/crawl/${shopname}`)
             .then(res => res.json())
             .then(data => {
               console.log(data);
@@ -215,16 +215,16 @@ const SMSDataContextProvider = ({children}: Props) => {
             })
             .then(() => {
               console.log('saved');
+              monthlyAcount();
             });
-
-          monthlyAcount();
 
           setCname(null);
           setDshop(null);
           setDmoney(null);
           setDcategory(null);
+          monthlyAcount();
         }
-      }, 5000);
+      }, 6000);
     }
   }, [body]);
 
@@ -291,13 +291,18 @@ const SMSDataContextProvider = ({children}: Props) => {
     console.log(timestamp);
 
     if (user) {
-      database().ref(`/user_wallet/${user.uid}/@${timestamp}`).set({
-        category: category,
-        date: date,
-        shop: shop,
-        money: money,
-      });
-
+      database()
+        .ref(`/user_wallet/${user.uid}/@${timestamp}`)
+        .set({
+          category: category,
+          date: date,
+          shop: shop,
+          money: money,
+        })
+        .then(() => {
+          console.log('saved');
+          monthlyAcount();
+        });
       monthlyAcount();
     }
   };

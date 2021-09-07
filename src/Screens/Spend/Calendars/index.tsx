@@ -76,10 +76,7 @@ const Calendars = () => {
     //database().ref(`/users/${userInfo}/${month}`).set({over: date});
     //console.log(aim, acount);
     let thirty = aim * 0.3;
-    /*
-    let fifty = aim * 0.5;
-    let seventy = aim * 0.7;
-    */
+
     let sixty = aim * 0.6;
     let ninty = aim * 0.9;
     if (aim < acount) {
@@ -164,33 +161,6 @@ const Calendars = () => {
       },
     };
   }
-
-  /*
-
-  if (userData[month].hasOwnProperty('fifty')) {
-    markedDate[userData[month].fifty] = {
-      customStyles: {
-        container: {
-          borderWidth: 2,
-          borderColor: 'orange',
-          backgroundColor: 'yellow',
-          justifyContent: 'center',
-        },
-        text: {
-          marginTop: 0,
-        },
-      },
-    };
-  }
-
-  if (userData[month].hasOwnProperty('seventy')) {
-    markedDate[userData[month].seventy] = {
-      marked: true,
-      dotColor: 'orange',
-    };
-  }
-
-  */
 
   if (userData[month].hasOwnProperty('sixty')) {
     markedDate[userData[month].sixty] = {

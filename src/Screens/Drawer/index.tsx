@@ -69,7 +69,7 @@ interface Props {
 }
 
 const Drawer = ({props}: Props) => {
-  const {logout} = useContext<IUserContext>(UserContext);
+  const {logout, monthlyAcount} = useContext<IUserContext>(UserContext);
 
   const [username, setUsername] = useState('사용자');
 
@@ -100,7 +100,11 @@ const Drawer = ({props}: Props) => {
           <ProfileHeader name={username} />
         </HeaderContainer>
       </Header>
-      <Button onPress={() => props.navigation.navigate('Pay')}>
+      <Button
+        onPress={() => {
+          props.navigation.navigate('Pay');
+          monthlyAcount();
+        }}>
         <ButtonContainer>
           <Icon source={require('~/Assets/Images/ic_house.png')} />
           <Label>홈</Label>
@@ -124,9 +128,7 @@ const Drawer = ({props}: Props) => {
             logout();
           }}>
           <LogoutContainer>
-            <Icon
-              source={require('~/Assets/Images/ic_logout.png')}
-            />
+            <Icon source={require('~/Assets/Images/ic_logout.png')} />
             <Label>로그아웃</Label>
           </LogoutContainer>
         </Button>
