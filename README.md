@@ -2,6 +2,5 @@
 @RENEWAL
 
 <br/><br/>
-[![](https://images.velog.io/images/corone_hi/post/ca9dc6f4-c782-4262-9ea9-767177ffd3ce/main.png)](https://youtu.be/wGE6Mw9OVn4)
-
+![image](https://user-images.githubusercontent.com/66571482/151535346-94fb5a02-a38b-435b-a919-34bf3d5ed669.png)
 [Youtube](https://youtu.be/wGE6Mw9OVn4)
